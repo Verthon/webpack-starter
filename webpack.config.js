@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: './src/js/app.js',
+  entry: './src/js/main.ts',
   module: {
     rules: [
       {
@@ -16,8 +16,15 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.html$/,
-        use: [{ loader: "html-loader", options: { minimize: true } }]
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -47,9 +54,11 @@ module.exports = {
     clean: true
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     compress: true,
-    port: 9000
+    port: 9000,
   },
   plugins: [
     new HtmlWebPackPlugin({
