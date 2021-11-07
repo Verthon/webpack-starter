@@ -1,6 +1,6 @@
 # Webpack starter
+Supports:
 
-- babel(es6+ support)
-- scss
+- TypeScript
+- Sass, PostCSS
 - webpack-dev server (working on port 9000)
-- live reload

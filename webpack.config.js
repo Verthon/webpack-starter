@@ -4,17 +4,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/js/app.js',
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000
-  },
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
-  },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
@@ -22,6 +18,14 @@ module.exports = {
       {
         test: /\.html$/,
         use: [{ loader: "html-loader", options: { minimize: true } }]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
       {
         test: /\.scss$/,
@@ -32,32 +36,20 @@ module.exports = {
           "sass-loader"
         ]
       },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              name: "./img/[name].[ext]",
-              limit: 10000
-            }
-          },
-          {
-            loader: "img-loader"
-          }
-        ]
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      },
     ]
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
   },
   plugins: [
     new HtmlWebPackPlugin({
