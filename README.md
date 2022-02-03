@@ -1,4 +1,5 @@
 # Webpack starter
+if you are not using nvm, please use the node version from .nvmrc file
 
 ## Quickstart
 ```zsh
